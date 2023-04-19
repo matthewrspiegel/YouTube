@@ -1,10 +1,76 @@
 ---
 title: "Code Joinery"
 format: html
+execute:
+  warning: false
+  error: false
+  message: false
 ---
 
 ```{r}
 library(tidyverse)
 library(data.table)
+```
+
+In this document we will walk through 3 ways to join two or more dataframes together.
+
+The first method we'll look at is using the base R function `merge`. We'll then look 
+at the `data.table` method and finally we will look at the `dplyr` method using the 
+`*_join` family of functions.
+
+## Create Some Data
+
+```{r}
+set.seed(3894)
+v1 <- 1000000
+N <- 100000
+fd1 <- data.frame(x = sample(v1, N), y1 = rnorm(N))
+fd2 <- data.frame(x = sample(v1, N), y2 = rnorm(N))
+```
+
+
+## Base R
+
+The base R method uses the built in function called `merge`.
+
+```{r}
+# left join
+lj <- merge(fd1, fd2, by = "x", all.x = TRUE)
+
+# right join
+rj <- merge(fd1, fd2, by = "x", all.y = TRUE)
+
+# inner join
+ij <- merge(fd1, fd2, by = "x")
+```
+
+
+
+## `data.table`
+
+```{r}
+fd1_dt <- as.data.table(fd1) |> setkey(x)
+fd2_dt <- as.data.table(fd2) |> setkey(x)
+
+# left join
+lj_dt <- merge(fd1_dt, fd2_dt, all.x = TRUE)
+
+# right join
+rj_dt <- merge(fd1_dt, fd2_dt, all.y = TRUE)
+
+# inner join
+ij_dt <- merge(fd1_dt, fd2_dt)
+```
+
+
+
+## `dplyr`
+
+```{r}
+lj_dp <- left_join(fd1, fd2, by = "x")
+
+rj_dp <- right_join(fd1, fd2, by = "x")
+
+ij_dp <- inner_join(fd1, fd2, by = "x")
 ```
 
