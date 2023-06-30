@@ -1,0 +1,21 @@
+---
+title: "Programming with a Purrrpose"
+format: html
+execute:
+  warning: false
+  error: false
+  message: false
+---
+
+```{r}
+library(tidyverse) # loading the whole `tidyverse` (including `purrr`)
+```
+
+## Create Some Data
+
+```{r}
+numeric_vec1 <- c(1, 5, 1, 30, 22)
+numeric_vec2 <- c(20, 19, 22, 1, 8)
+```
+
+
